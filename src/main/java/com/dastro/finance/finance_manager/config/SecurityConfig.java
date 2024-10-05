@@ -11,7 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import jakarta.servlet.http.Cookie;
+import com.dastro.finance.finance_manager.util.CookieUtil;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -23,10 +24,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                                .requestMatchers("/", "/index.html", "/login", "/oauth2/**").permitAll()
+                                .requestMatchers("/", "/index.html", "/logout", "/oauth2/**").permitAll()
+                                .requestMatchers("/assets/**", "/css/**", "/js/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error=true")
                         .successHandler(authenticationSuccessHandler()))
                 .logout(logout -> logout
                         .logoutSuccessHandler(logoutSuccessHandler())
@@ -55,19 +60,12 @@ public class SecurityConfig {
                 // Session End Process
                 request.getSession().invalidate();
 
-                // Delete Cookie
-                response.addCookie(createCookie("JSESSINID", "", 0));
+                //response.addCookie(createCookie("JSESSINID", "", 0));
+                response.addCookie(CookieUtil.createCookie("JSESSINID", "", 0));
+
                 // When logout then Redirection Uri
                 response.sendRedirect("/login");
             }
         };
     }
-
-    private Cookie createCookie(String name, String value, int maxAge) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setMaxAge(maxAge);
-        cookie.setPath("/"); // 모든 경로에 대해 유효
-        return cookie;
-    }
-
 }

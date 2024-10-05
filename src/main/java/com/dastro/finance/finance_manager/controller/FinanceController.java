@@ -1,18 +1,14 @@
 package com.dastro.finance.finance_manager.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.dastro.finance.finance_manager.entity.BankAccount;
 import com.dastro.finance.finance_manager.service.BankAccountService;
@@ -25,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Log4j2
-@RestController
+@Controller
 public class FinanceController {
 
     @Autowired
@@ -35,17 +31,14 @@ public class FinanceController {
     BankAccountService bankAccountService;
 
     @GetMapping("/")
-	public ResponseEntity<String> index() {
-        try {
-            // index.html 파일의 경로를 지정
-            Path path = Path.of("src/main/resources/static/index.html");
-            String content = Files.readString(path);
-            return ResponseEntity.ok()
-                    .contentType(org.springframework.http.MediaType.TEXT_HTML)
-                    .body(content); // HTML 파일의 내용을 반환
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error reading index.html");
+	public String index(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        // 사용자가 로그인한 경우 사용자 이름을 모델에 추가
+        if (principal != null) {
+            String name = principal.getAttribute("name"); // 사용자 이름 가져오기
+            model.addAttribute("name", name);
         }
+        
+        return "index";
 	}
 
     @GetMapping("/user")
