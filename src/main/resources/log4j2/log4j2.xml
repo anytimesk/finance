@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+   <Properties>
+       <Property name="LOG_PATH">logs</Property>
+       <Property name="DEFAULT_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] %5p ${sys:PID} --- [%15.15t] %-40.40c{1.} : %m%n%xwEx</Property>
+       <Property name="COLOR_PATTERN">[%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint}] %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
+       <Property name="TEST_PATTERN">%d %5p [%c] %m%n</Property>
+   </Properties>
+
+   <Appenders>
+       <Console name="console" target="SYSTEM_OUT" follow="true">
+           <PatternLayout pattern="${COLOR_PATTERN}"/>
+       </Console>
+
+       <RollingFile name ="RollingFileAppender">
+           <FileName>${LOG_PATH}/log4j2.log</FileName>
+           <FilePattern>${LOG_PATH}/log4j2.%d{yyyy-MM-dd-hh-mm}.%i.log.gz</FilePattern>
+           <PatternLayout>
+               <Pattern>${DEFAULT_PATTERN}</Pattern>
+           </PatternLayout>
+           <Policies>
+               <SizeBasedTriggeringPolicy size="100MB"/>
+               <TimeBasedTriggeringPolicy interval = "60" modulate = "true"/>
+           </Policies>
+       </RollingFile>
+
+   </Appenders>
+
+    <Loggers>
+        <root level="info" additivity="true">
+            <AppenderRef ref="console"/>
+        </root>
+        <Logger name="consolelog" level="info" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+    </Loggers>
+    
+</Configuration>
