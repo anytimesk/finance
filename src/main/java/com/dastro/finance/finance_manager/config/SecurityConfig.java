@@ -1,20 +1,12 @@
 package com.dastro.finance.finance_manager.config;
 
-import java.io.IOException;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-import com.dastro.finance.finance_manager.util.CookieUtil;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -22,50 +14,26 @@ public class SecurityConfig {
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authz -> authz
-                                .requestMatchers("/", "/index.html", "/logout", "/oauth2/**").permitAll()
-                                .requestMatchers("/assets/**", "/css/**", "/js/**").permitAll()
-                                .anyRequest().authenticated()
+                http
+                .csrf(csrf -> csrf
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // CSRF 토큰 저장소 설정
                 )
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/", "/login", "/oauth2/**").permitAll()
+                        .requestMatchers("/assets/**", "/css/**", "/js/**").permitAll()
+                        .anyRequest().authenticated())
                 .oauth2Login(login -> login
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/login?error=true")
-                        .successHandler(authenticationSuccessHandler()))
+                        .loginPage("/login") // 사용자 정의 로그인 페이지
+                        .defaultSuccessUrl("/", true) // 로그인 성공 시 리다이렉트
+                        .failureUrl("/login?error=true") // 로그인 실패 시 리다이렉트
+                        .permitAll())
                 .logout(logout -> logout
-                        .logoutSuccessHandler(logoutSuccessHandler())
-                        .permitAll());
+                        .logoutSuccessUrl("/") // 로그아웃 성공 후 리다이렉트할 URL
+                        .invalidateHttpSession(true) // 세션 무효화
+                        .clearAuthentication(true) // 인증 정보 삭제
+                        .permitAll()); // 로그아웃을 누구나 허용
 
         return http.build();
     }
 
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                Authentication authentication) throws IOException {
-                response.sendRedirect("/user");
-            }
-        };
-    }
-
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return new LogoutSuccessHandler() {
-            @Override
-            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException {
-                // Session End Process
-                request.getSession().invalidate();
-
-                //response.addCookie(createCookie("JSESSINID", "", 0));
-                response.addCookie(CookieUtil.createCookie("JSESSINID", "", 0));
-
-                // When logout then Redirection Uri
-                response.sendRedirect("/login");
-            }
-        };
-    }
 }

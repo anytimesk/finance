@@ -17,7 +17,6 @@
             <a class="navbar-brand ps-3" href="/">Home</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
@@ -27,8 +26,13 @@
                         <li><a class="dropdown-item" href="401.html">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="/login">Login</a></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
                     </ul>
+                </li>
+                <li class="nav-item" th:if="${isLoggedIn}">
+                    <form action="/logout" method="post" style="display: inline;">
+                        <input type="hidden" th:name="${csrfParameterName}" th:value="${csrfToken}"/>
+                        <button type="submit" class="nav-link btn btn-link">Logout</button>
+                    </form>
                 </li>
             </ul>
         </nav>
