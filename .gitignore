@@ -1,0 +1,47 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+src/.DS_Store
+src/main/.DS_Store
+src/main/java/.DS_Store
+src/main/java/com/.DS_Store
+src/main/java/com/dastro/.DS_Store
+src/main/java/com/dastro/finance/.DS_Store
+src/main/java/com/dastro/finance/finance_manager/.DS_Store
+src/main/java/com/dastro/finance/finance_manager/entity/.DS_Store
+logs/log4j2.log
+.DS_Store
