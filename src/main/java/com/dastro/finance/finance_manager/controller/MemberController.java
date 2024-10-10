@@ -28,8 +28,6 @@ public class MemberController {
             model.addAttribute("csrfToken", csrfToken.getToken());
             model.addAttribute("csrfParameterName", csrfToken.getParameterName());
 
-            log.info(String.format("CSRF Token : %s, csrfParameterName : %s", csrfToken.getToken().toString(), csrfToken.getParameterName()));
-
             String name = principal.getAttribute("name"); // 사용자 이름 가져오기
             model.addAttribute("name", name);
             model.addAttribute("isLoggedIn", true); // 로그인 상태
@@ -39,7 +37,7 @@ public class MemberController {
 
         return "index";
 	}
-    
+
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model) {
         

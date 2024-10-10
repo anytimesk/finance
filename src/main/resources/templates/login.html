@@ -20,14 +20,12 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
-                                        <a class="btn btn-primary" th:href="@{/oauth2/authorization/google}">Login with Google</a>
+                                        <a class="btn btn-primary btn-success active" th:href="@{/oauth2/authorization/google}">Login with Google</a>
                                         <div th:if="${param.error}" class="alert alert-danger mt-3">
                                             Invalid username or password.
                                         </div>
                                     </div>
-                                    <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

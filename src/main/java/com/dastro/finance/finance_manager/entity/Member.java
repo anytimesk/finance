@@ -4,22 +4,26 @@ import jakarta.persistence.*;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity(name = "user_info")
 public class Member {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     private String passwd;
 
     private String name;
 
     private String email;
+
+    private String oauth2Vender;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "roles")
