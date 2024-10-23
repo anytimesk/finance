@@ -41,10 +41,10 @@ public class ConfigController {
         }
 
         List<Config> configInfos = configService.getAllConfig();
-        model.addAttribute("conf", configInfos);
+        model.addAttribute("confs", configInfos);
 
         configInfos.forEach(config-> {
-            log.info("id : {}, key : {}, value : {}, category : {}, comment : {}",
+            log.debug("id : {}, key : {}, value : {}, category : {}, comment : {}",
             config.getId(), config.getConfName(), config.getConfValue(), config.getCategory(), config.getComment());
         });
 
