@@ -24,7 +24,30 @@
                             </div>
                         </div>
 
-                        <div id="stockRet">
+                        <div class="row">
+                            <div class="md-12">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    DataTable Example
+                                </div>
+                                <div class="card-body">
+                                    <table id="itemTable" class="display data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>기준일</th>
+                                                <th>이름</th>
+                                                <th>종가</th>
+                                                <th>전일등락</th>
+                                                <th>시가</th>
+                                                <th>고가</th>
+                                                <th>저가</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -38,9 +61,10 @@
         <script src="assets/demo/chart-area-demo.js"></script>
         <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+        
         <script type="text/javascript">
             $(document).ready(function () {
                 
@@ -53,15 +77,33 @@
                         itmsNm : $("#itmsNm").val(),
                         pageNo : 1
                     };
+
                     $.ajax({
                         url: "/finance/getStockPriceInfo",
                         type: "GET",
                         data: jsonData,
-                        success: function (ret) {
-                            $("#stockRet").html(ret);
+                        success: function (items) {
+                            console.log("서버 응답:", items);
+                            var htmlContent = '';
+
+                            // items 배열을 순회하며 HTML 문자열 생성
+                            items.forEach(function(item) {
+                                $('#itemTable tbody').append(
+                                    '<tr>' +
+                                        '<td>' + item.basDt + '</td>' +
+                                        '<td>' + item.itmsNm + '</td>' +
+                                        '<td>' + item.clpr + '</td>' +
+                                        '<td>' + item.vs + '</td>' +
+                                        '<td>' + item.mkp + '</td>' +
+                                        '<td>' + item.hipr + '</td>' +
+                                        '<td>' + item.lopr + '</td>' +
+                                    '</tr>'
+                                );
+                            });
+                            $('#itemTable').DataTable();
                         },
                         error: function (xhr, status, error) {
-                            $("#stockRet").html(ret);
+                            alert('데이터를 가져오는 데 실패했습니다.');
                         }
                     });
 

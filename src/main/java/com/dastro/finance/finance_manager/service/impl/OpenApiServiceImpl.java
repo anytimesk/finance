@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 @Service
 public class OpenApiServiceImpl implements OpenApiService{
 
-    public Object getOpenApiData(OpenApiReqParam reqParam) {
+    public String getOpenApiData(OpenApiReqParam reqParam) {
 
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(reqParam.getEndPointURL()); 
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
@@ -29,17 +29,16 @@ public class OpenApiServiceImpl implements OpenApiService{
         log.debug("getOpenApiData getDetailService : {}", reqParam.getDetailService());
         log.debug("getOpenApiData serviceKey : {}", reqParam.getQueryParam().get("serviceKey"));
 
-        Object response = webClient.get()
-                            .uri(uriBuilder -> uriBuilder
-                                .path(reqParam.getDetailService())
-                                .queryParams(reqParam.getQueryParam())
-                                .build()
-                            )
-                            .retrieve()
-                            .bodyToMono(Object.class)
-                            .block();
 
-        return response;
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                    .path(reqParam.getDetailService())
+                    .queryParams(reqParam.getQueryParam())
+                    .build()
+                )
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 
     public String encodingString(String serviceKey) {
