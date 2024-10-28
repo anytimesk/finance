@@ -59,14 +59,14 @@ public class FinanceController {
 
     @GetMapping(value = "/finance/getStockPriceInfo")
     @ResponseBody
-    public ResponseEntity<JsonNode> getStockPriceInfo(@RequestParam String itmsNm, @RequestParam int pageNo) {
+    public ResponseEntity<JsonNode> getStockPriceInfo(@RequestParam String itmsNm, @RequestParam int pageNo, @RequestParam int numOfRows) {
         String baseUri = configService.getConfigByName("CALLBACK_URL").get().getConfValue();
         String serviceKeyDecode = configService.getConfigByName("AUTH_KEY").get().getConfValue();
         String serviceKey = openApiService.encodingString(serviceKeyDecode);
 
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("serviceKey", serviceKey);
-        params.add("numOfRows", Integer.toString(2));
+        params.add("numOfRows", Integer.toString(numOfRows));
         params.add("resultType", "json");
         params.add("itmsNm", openApiService.encodingString(itmsNm,"UTF-8") );
 
