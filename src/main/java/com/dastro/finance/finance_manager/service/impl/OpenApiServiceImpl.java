@@ -29,8 +29,10 @@ public class OpenApiServiceImpl implements OpenApiService{
         log.debug("getOpenApiData getDetailService : {}", reqParam.getDetailService());
         log.debug("getOpenApiData serviceKey : {}", reqParam.getQueryParam().get("serviceKey"));
 
-
-        return webClient.get()
+        
+        // 호출 시간 측정한 결과 데이터 양과 관계없이 1.4 ~ 1.8초 사이
+        //long startTime = System.currentTimeMillis();
+        String ret = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                     .path(reqParam.getDetailService())
                     .queryParams(reqParam.getQueryParam())
@@ -39,6 +41,10 @@ public class OpenApiServiceImpl implements OpenApiService{
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+        //long stopTime = System.currentTimeMillis();
+        //log.info("webClient Get Request serviceKey : {}", (stopTime - startTime));
+
+        return ret;
     }
 
     public String encodingString(String serviceKey) {
