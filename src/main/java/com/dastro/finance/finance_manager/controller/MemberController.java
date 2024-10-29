@@ -37,12 +37,13 @@ public class MemberController {
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model) {
         
-        log.info(String.format("Call Log In Page, CsrfToken class getName : %s", CsrfToken.class.getName()));
+        log.debug(String.format("Call Log In Page, CsrfToken class getName : %s", CsrfToken.class.getName()));
 
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         model.addAttribute("csrfToken", csrfToken.getToken());
         model.addAttribute("csrfParameterName", csrfToken.getParameterName());
-        log.info(String.format("CSRF Token : %s, csrfParameterName : %s", csrfToken.getToken().toString(), csrfToken.getParameterName()));
+        log.debug(String.format("CSRF Token : %s", csrfToken.getToken().toString()));
+        log.debug(String.format("csrfParameterName : %s", csrfToken.getParameterName()));
 
         return "login";
     }
@@ -50,7 +51,7 @@ public class MemberController {
     @PostMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         
-        log.info("Call Log Out Page");
+        log.debug("Call Log Out Page");
         if (authentication != null) {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
