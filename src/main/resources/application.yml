@@ -12,6 +12,10 @@ spring:
     application:
         name: finance_manager
 
+    threads:
+        virtual:
+            enabled: true
+
     web:
         resources:
             cache:
