@@ -19,6 +19,7 @@
 
             <div class="row">
               <div class="md-4">
+                종목명
                 <input type="text" id="itmsNm" />
                 <select id="numOfRows" name="selbox">
                   <option value="10">10</option>
@@ -134,8 +135,8 @@
       }
 
       function drawCandleChart(stockData) {
-        const upColor = "#00da3c";
-        const downColor = "#FF0000";
+        const upColor = '#FF0000';
+        const downColor = '#0000FF';
         // 10일 주식 데이터 샘플 (날짜, 시가, 종가, 저가, 고가, 거래량)
         
         let chartDom = document.getElementById("myChart");
@@ -347,7 +348,7 @@
         for (let i = 0; i < items.length; i++) {
           categoryData.push(items[i].basDt);
           var info 
-          values.push([Number(items[i].mkp), Number(items[i].clpr), Number(items[i].lopr), Number(items[i].hipr), Number(items[i].clpr)]);
+          values.push([Number(items[i].mkp), Number(items[i].clpr), Number(items[i].lopr), Number(items[i].hipr), Number(items[i].mrktTotAmt)]);
           volumes.push([i, items[i].mrktTotAmt, Number(items[i].mkp) > Number(items[i].clpr) ? 1 : -1,]); // 거래량 데이터 추가
         }
 
