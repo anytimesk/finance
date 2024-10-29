@@ -48,21 +48,21 @@ public class OpenApiServiceImpl implements OpenApiService{
         return ret;
     }
 
-    public String encodingString(String serviceKey) {
-        return encodingString(serviceKey, "UTF-8");
+    public String encodingString(String targetString) {
+        return encodingString(targetString, "UTF-8");
     }
 
-    public String encodingString(String serviceKey, String encodeType) {
-        String serviceKeyEncoding = "";
+    public String encodingString(String targetString, String encodeType) {
+        String encodingString = "";
         
         try {
-            serviceKeyEncoding = URLEncoder.encode(serviceKey, encodeType);
+            encodingString = URLEncoder.encode(targetString, encodeType);
         } catch(UnsupportedEncodingException e) {
             log.error("UnsupportedEncodingException {}", e.toString());
         } catch(Exception e) {
             log.error(e.toString());
         }
-        return serviceKeyEncoding;
+        return encodingString;
     }
 
 }
