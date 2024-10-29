@@ -45,3 +45,4 @@ src/main/java/com/dastro/finance/finance_manager/.DS_Store
 src/main/java/com/dastro/finance/finance_manager/entity/.DS_Store
 logs/log4j2.log
 .DS_Store
+src/main/resources/application-oauth.yml
