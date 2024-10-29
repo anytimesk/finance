@@ -68,15 +68,11 @@
         <footer th:replace="~{/layouts/footer :: footerFragment}"></footer>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
+
+    <th:block th:replace="~{/layouts/scripts :: scriptFragment}"></th:block>
 
     <!-- ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
       $(document).ready(function () {
