@@ -11,4 +11,8 @@ public interface ConfigService {
     public Optional<Config> getConfigByName(String confName);
 
     public List<Config> getAllConfig();
+
+    public Config save(Config item);
+
+    public void delete(Long id);
 }

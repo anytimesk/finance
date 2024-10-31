@@ -19,7 +19,7 @@ import lombok.Setter;
 public class Config {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
     String confName;        // 설정 변수 Key Name

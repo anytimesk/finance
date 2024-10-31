@@ -7,6 +7,8 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
 
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
         <title th:replace="${title}">title</title>
 
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
