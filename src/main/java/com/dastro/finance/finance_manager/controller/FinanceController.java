@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dastro.finance.finance_manager.dto.OpenApiReqParam;
 import com.dastro.finance.finance_manager.entity.BankAccount;
+import com.dastro.finance.finance_manager.entity.Config;
 import com.dastro.finance.finance_manager.service.BankAccountService;
 import com.dastro.finance.finance_manager.service.ConfigService;
 import com.dastro.finance.finance_manager.service.MemberService;
@@ -103,18 +104,28 @@ public class FinanceController {
     @GetMapping(value = "/finance/getStockPriceInfo")
     @ResponseBody
     public ResponseEntity<JsonNode> getStockPriceInfo(@RequestParam String itmsNm, @RequestParam int pageNo, @RequestParam int numOfRows) {
-        String baseUri = configService.getConfigByName("CALLBACK_URL").get().getConfValue();
-        String serviceKeyDecode = configService.getConfigByName("AUTH_KEY").get().getConfValue();
-        String serviceKey = openApiService.encodingString(serviceKeyDecode);
+
+        List<Config> conf = configService.getConfigByCategory("STOCK_INFO");
+        String[] values = new String[2];
+
+        conf.forEach(val -> {
+            if (val.getConfName().equals("CALLBACK_URL")) {
+                values[0] = val.getConfValue();
+            } else if (val.getConfName().equals("AUTH_KEY")) {
+                values[1] = openApiService.encodingString(val.getConfValue());
+            }
+        } );
+        log.debug("baseUri : {}", values[0]);
+        log.debug("servicekey : {}", values[1]);
 
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("serviceKey", serviceKey);
+        params.add("serviceKey", values[1]);
         params.add("numOfRows", Integer.toString(numOfRows));
         params.add("resultType", "json");
         params.add("itmsNm", openApiService.encodingString(itmsNm,"UTF-8") );
 
         OpenApiReqParam reqParam = new OpenApiReqParam();
-        reqParam.setEndPointURL(baseUri);
+        reqParam.setEndPointURL(values[0]);
         reqParam.setDetailService("/getStockPriceInfo");
         reqParam.setQueryParam(params);
 
