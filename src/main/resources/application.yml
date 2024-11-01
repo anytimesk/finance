@@ -2,7 +2,7 @@ server:
     port: 8080
 
 logging:
-    config: classpath:log4j2/log4j2.xml
+    config: classpath:/log4j2/log4j2.xml
     level:
         org:
             hibernate:
@@ -22,7 +22,7 @@ spring:
                 period: 0
     thymeleaf:
         cache: false    # default true, 개발시에는 false로 두는 것이 좋음
-        prefix: classpath:templates/
+        prefix: classpath:/templates/
         check-template-location: true
         suffix: .html
         mode: HTML
