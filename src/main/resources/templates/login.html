@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head th:replace="~{/layouts/header :: headerFragment(~{::title})}">
+    <head th:replace="~{layouts/header :: headerFragment(~{::title})}">
         <title>Config</title>
     </head>
     <body>
@@ -27,9 +27,9 @@
                 </main>
             </div>
             <div id="layoutAuthentication_footer">
-                <footer th:replace="~{/layouts/footer :: footerFragment}"></footer>
+                <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
             </div>
         </div>
-        <th:block th:replace="~{/layouts/scripts :: scriptFragment}"></th:block>
+        <th:block th:replace="~{layouts/scripts :: scriptFragment}"></th:block>
     </body>
 </html>

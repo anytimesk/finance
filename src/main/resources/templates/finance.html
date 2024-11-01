@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head th:replace="~{/layouts/header :: headerFragment(~{::title})}">
+  <head th:replace="~{layouts/header :: headerFragment(~{::title})}">
     <title>Finance</title>
   </head>
   <body class="sb-nav-fixed">
-    <nav th:replace="~{/layouts/top :: top-nav}"></nav>
+    <nav th:replace="~{layouts/top :: top-nav}"></nav>
     <div id="layoutSidenav">
       <!-- Left Side Menu-->
-      <div th:replace="~{/layouts/left-side :: side-nav}"></div>
+      <div th:replace="~{layouts/left-side :: side-nav}"></div>
 
       <div id="layoutSidenav_content">
         <main>
@@ -67,11 +67,11 @@
             </div>
           </div>
         </main>
-        <footer th:replace="~{/layouts/footer :: footerFragment}"></footer>
+        <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
       </div>
     </div>
 
-    <th:block th:replace="~{/layouts/scripts :: scriptFragment}"></th:block>
+    <th:block th:replace="~{layouts/scripts :: scriptFragment}"></th:block>
 
     <!-- ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>

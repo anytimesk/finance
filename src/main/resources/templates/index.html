@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{/layouts/header :: headerFragment(~{::title})}">
+    <head th:replace="~{layouts/header :: headerFragment(~{::title})}">
         <title>Main</title>
     </head>
     <body class="sb-nav-fixed">
-        <nav th:replace="~{/layouts/top :: top-nav}"></nav>
+        <nav th:replace="~{layouts/top :: top-nav}"></nav>
         <div id="layoutSidenav">
             <!-- Left Side Menu-->
-            <div th:replace="~{/layouts/left-side :: side-nav}"></div>
+            <div th:replace="~{layouts/left-side :: side-nav}"></div>
 
             <div id="layoutSidenav_content">
                 <main>
@@ -564,10 +564,10 @@
                         </div>
                     </div>
                 </main>
-                <footer th:replace="~{/layouts/footer :: footerFragment}"></footer>
+                <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
             </div>
         </div>
-        <th:block th:replace="~{/layouts/scripts :: scriptFragment}"></th:block>
+        <th:block th:replace="~{layouts/scripts :: scriptFragment}"></th:block>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/chart-area-demo.js"></script>
