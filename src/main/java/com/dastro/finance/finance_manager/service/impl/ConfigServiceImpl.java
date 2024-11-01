@@ -30,6 +30,14 @@ public class ConfigServiceImpl implements ConfigService {
         return configRepo.findByConfName(confName);
     }
 
+    public Optional<Config> getConfigByNameAndCategory(String confName, String category) {
+        return configRepo.findByConfNameAndCategory(confName, category);
+    }
+
+    public List<Config> getConfigByCategory(String category) {
+        return configRepo.findByCategory(category);
+    }
+
     public List<Config> getAllConfig() {
         return configRepo.findAll();
     }

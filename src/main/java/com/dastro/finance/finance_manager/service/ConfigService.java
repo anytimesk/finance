@@ -10,6 +10,10 @@ public interface ConfigService {
 
     public Optional<Config> getConfigByName(String confName);
 
+    public Optional<Config> getConfigByNameAndCategory(String confName, String category);
+
+    public List<Config> getConfigByCategory(String category);
+
     public List<Config> getAllConfig();
 
     public Config save(Config item);
