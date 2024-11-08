@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="~{layouts/header :: headerFragment(~{::title})}">
+    <title>Users</title>
+  </head>
+  <body class="sb-nav-fixed">
+    <nav th:replace="~{layouts/top :: top-nav}"></nav>
+    <div id="layoutSidenav">
+      <!-- Left Side Menu-->
+      <div th:replace="~{layouts/left-side :: side-nav}"></div>
+
+      <div id="layoutSidenav_content">
+        <main>
+          <div class="container-fluid px-4">
+            <h1 class="mt-4">사용자 목록</h1>
+            <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item active">사용자 목록</li>
+            </ol>
+            <div class="row">
+              <div class="md-12"></div>
+            </div>
+
+            <div class="row mt-5">
+              <div class="md-12">
+                <div class="card-body">
+                  <table id="itemTable" class="datatable-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>E-Mail</th>
+                        <th>OAuth2 Vender</th>
+                        <th>Roles</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="member: ${members}">
+                        <td th:text="${member.id}">ID</td>
+                        <td th:text="${member.name}">Name</td>
+                        <td th:text="${member.email}">E-Mail</td>
+                        <td th:text="${member.oauth2Vender}">OAuth2 Vender</td>
+                        <td th:text="${member.role}">Roles</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
+      </div>
+    </div>
+
+    <th:block th:replace="~{layouts/scripts :: scriptFragment}"></th:block>
+    <script type="text/javascript">
+      $(document).ready(function () {});
+    </script>
+  </body>
+</html>

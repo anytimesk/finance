@@ -1,5 +1,6 @@
 package com.dastro.finance.finance_manager.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,17 @@ import lombok.extern.log4j.Log4j2;
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepository memberRepo;
 
     @Override
     public Optional<Member> getMemberInfo(Long userId, String passwd) {
-        Optional<Member> member = memberRepository.findByIdAndPasswd(userId, passwd);
+        Optional<Member> member = memberRepo.findByIdAndPasswd(userId, passwd);
 
         return member;
     }
 
-    public void loginCheckAndInsertModel(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
+    public void loginCheckAndInsertModel(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request,
+            Model model) {
 
         if (principal != null) {
             CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
@@ -45,5 +47,9 @@ public class MemberServiceImpl implements MemberService {
         } else {
             model.addAttribute("isLoggedIn", false); // 로그인 상태
         }
+    }
+
+    public List<Member> getAllUsers() {
+        return memberRepo.findAll();
     }
 }

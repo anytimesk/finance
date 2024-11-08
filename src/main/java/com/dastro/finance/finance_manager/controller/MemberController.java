@@ -1,5 +1,7 @@
 package com.dastro.finance.finance_manager.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,11 +15,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.dastro.finance.finance_manager.entity.Member;
 import com.dastro.finance.finance_manager.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 
 @Log4j2
 @Controller
@@ -27,16 +29,16 @@ public class MemberController {
     MemberService memberService;
 
     @GetMapping("/")
-	public String index(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
-        
+    public String index(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
+
         memberService.loginCheckAndInsertModel(principal, request, model);
 
         return "index";
-	}
+    }
 
     @GetMapping("/login")
     public String login(HttpServletRequest request, Model model) {
-        
+
         log.debug(String.format("Call Log In Page, CsrfToken class getName : %s", CsrfToken.class.getName()));
 
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
@@ -50,7 +52,7 @@ public class MemberController {
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        
+
         log.debug("Call Log Out Page");
         if (authentication != null) {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
@@ -64,5 +66,13 @@ public class MemberController {
         // Google 로그아웃 URL
         String googleLogoutUrl = "https://accounts.google.com/Logout"; // Google 로그아웃 URL
         return "redirect:" + googleLogoutUrl;
+    }
+
+    @GetMapping(value = "/users")
+    public String userMain(Model model) {
+        List<Member> members = memberService.getAllUsers();
+        model.addAttribute("members", members);
+
+        return "users";
     }
 }
