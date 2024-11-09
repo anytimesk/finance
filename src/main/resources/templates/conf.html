@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
     <head th:replace="~{layouts/header :: headerFragment(~{::title})}">
         <title>Config</title>
     </head>
@@ -20,7 +20,11 @@
                             <div class="md-12">
                                 <div class="card-head">
                                     <!-- Button to trigger modal -->
-                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#configModal">
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#configModal">
                                         Add Config
                                     </button>
                                 </div>
@@ -30,7 +34,7 @@
                         <div class="row mt-5">
                             <div class="md-12">
                                 <div class="card-body">
-                                    <table id="itemTable"  class="datatable-table">
+                                    <table id="itemTable" class="datatable-table">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -49,7 +53,11 @@
                                                 <td th:text="${conf.category}">Category</td>
                                                 <td th:text="${conf.comment}">Comment</td>
                                                 <td>
-                                                    <button class="btn btn-danger btn-sm delete-btn" th:data-id="${conf.id}">Delete</button>
+                                                    <button
+                                                        class="btn btn-danger btn-sm delete-btn"
+                                                        th:data-id="${conf.id}">
+                                                        Delete
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -60,45 +68,54 @@
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+                    <div
+                        class="modal fade"
+                        id="configModal"
+                        tabindex="-1"
+                        aria-labelledby="configModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="configModalLabel">Add Config</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form method="post">
                                         <div class="mb-3">
                                             <label for="confName" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="confName" required>
+                                            <input type="text" class="form-control" id="confName" required />
                                         </div>
                                         <div class="mb-3">
                                             <label for="confValue" class="form-label">Value</label>
-                                            <input type="text" class="form-control" id="confValue" required>
+                                            <input type="text" class="form-control" id="confValue" required />
                                         </div>
                                         <div class="mb-3">
                                             <label for="category" class="form-label">Category</label>
-                                            <input type="text" class="form-control"  id="category" required>
+                                            <input type="text" class="form-control" id="category" required />
                                         </div>
                                         <div class="mb-3">
                                             <label for="comment" class="form-label">Comment</label>
-                                            <input type="text" class="form-control" id="comment" required>
+                                            <input type="text" class="form-control" id="comment" required />
                                         </div>
 
                                         <!-- CSRF 토큰을 HTML에 삽입 -->
-                                        <s:csrfInput/>
+                                        <s:csrfInput />
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
                                     <button type="button" class="btn btn-primary" id="saveConfig">Save Config</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                 </main>
                 <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
             </div>
@@ -114,53 +131,53 @@
                     ordering: true, // 정렬 활성화
                 });
 
-                $('#saveConfig').click(function() {
+                $("#saveConfig").click(function () {
                     saveConfig();
                 });
-                
-                $('#itemTable').on('click', '.delete-btn', function () {
-                    var configId = $(this).data('id');
-                    if (confirm('Are you sure you want to delete this config?')) {
-                        deleteConfig(configId, $(this).closest('tr'));
+
+                $("#itemTable").on("click", ".delete-btn", function () {
+                    var configId = $(this).data("id");
+                    if (confirm("Are you sure you want to delete this config?")) {
+                        deleteConfig(configId, $(this).closest("tr"));
                     }
                 });
             });
 
             function saveConfig() {
                 const configData = {
-                    confName: $('#confName').val(),
-                    confValue: $('#confValue').val(),
-                    category: $('#category').val(),
-                    comment: $('#comment').val()
+                    confName: $("#confName").val(),
+                    confValue: $("#confValue").val(),
+                    category: $("#category").val(),
+                    comment: $("#comment").val(),
                 };
                 const csrfToken = $('input[name="_csrf"]').val();
-                const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+                const csrfHeader = $('meta[name="_csrf_header"]').attr("content");
 
                 $.ajax({
-                    type: 'POST',
-                    url: '/conf/add',
-                    contentType: 'application/json',
+                    type: "POST",
+                    url: "/conf/add",
+                    contentType: "application/json",
                     data: JSON.stringify(configData),
-                    beforeSend: function(xhr) {
-                        xhr.setRequestHeader(csrfHeader, csrfToken);  // CSRF 토큰을 요청 헤더에 추가
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 토큰을 요청 헤더에 추가
                     },
-                    success: function(response) {
-                        alert(response);  // Display success message
-                        $('#configModal').modal('hide');  // Close modal
+                    success: function (response) {
+                        alert(response); // Display success message
+                        $("#configModal").modal("hide"); // Close modal
                     },
-                    error: function(error) {
-                        alert('Error saving config: ' + error.responseText);
-                    }
+                    error: function (error) {
+                        alert("Error saving config: " + error.responseText);
+                    },
                 });
             }
 
             function deleteConfig(id, row) {
                 const csrfToken = $('input[name="_csrf"]').val();
-                const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+                const csrfHeader = $('meta[name="_csrf_header"]').attr("content");
 
                 $.ajax({
-                    url: '/conf/delete/' + id,
-                    type: 'DELETE',
+                    url: "/conf/delete/" + id,
+                    type: "DELETE",
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
                     },
@@ -169,8 +186,8 @@
                         row.remove(); // Remove row from DataTable
                     },
                     error: function (error) {
-                        alert('Error deleting config: ' + error.responseText);
-                    }
+                        alert("Error deleting config: " + error.responseText);
+                    },
                 });
             }
         </script>
