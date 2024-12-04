@@ -9,6 +9,10 @@ logging:
                 sql: error
 
 spring:
+    profiles:
+        active: local
+        include: oauth
+
     application:
         name: finance_manager
 
@@ -21,23 +25,16 @@ spring:
             cache:
                 period: 0
     thymeleaf:
-        cache: false    # default true, 개발시에는 false로 두는 것이 좋음
+        cache: false # default true, 개발시에는 false로 두는 것이 좋음
         prefix: classpath:/templates/
         check-template-location: true
         suffix: .html
         mode: HTML
-        
 
     security:
         user:
             name: user
             password: 1234
-
-    datasource:
-        url: jdbc:postgresql://localhost:54321/finance
-        username: sky
-        password: 123456
-        driver-class-name: org.postgresql.Driver
 
     jpa:
         hibernate:
@@ -47,6 +44,3 @@ spring:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         open-in-view: false
         generate-ddl: false
-    
-    profiles:
-        include: oauth

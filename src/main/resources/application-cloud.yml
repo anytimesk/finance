@@ -1,0 +1,7 @@
+# Cloud Operation Environment
+spring:
+    datasource:
+        url: # 운영서버 postgresql 접속 주소:포트/DB_이름
+        username: #운영 서버 Postgresql ID
+        password: #운영 서버 Postgresql Password
+        driver-class-name: org.postgresql.Driver
