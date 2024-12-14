@@ -29,7 +29,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 
-
 @Log4j2
 @Controller
 public class FinanceController {
@@ -48,7 +47,7 @@ public class FinanceController {
 
     @GetMapping(value = "/finance")
     public String financeMain(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
-        
+
         // data.go.kr에서 상장회사 리스트 가져옴(Sample이라 100개만)
         HashMap<String, String> data = getConfigData("ISIN_CODE");
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -66,16 +65,16 @@ public class FinanceController {
         JsonNode items = null;
 
         try {
-            //long startTime = System.currentTimeMillis();
+            // long startTime = System.currentTimeMillis();
             JsonNode jsonNode = objectMapper.readTree(response);
             items = jsonNode.path("response").path("body").path("items").path("item");
             List<String> companyList = new ArrayList<>();
 
             items.forEach(item -> companyList.add(item.get("itmsNm").asText()));
-            
+
             model.addAttribute("companies", companyList);
-            //long stopTime = System.currentTimeMillis();
-            //log.info("Json Parsing Time {}", (stopTime - startTime));
+            // long stopTime = System.currentTimeMillis();
+            // log.info("Json Parsing Time {}", (stopTime - startTime));
         } catch (JsonProcessingException e) {
             log.error("JSON 파싱 오류: {}", e.getMessage());
         } catch (Exception e) {
@@ -97,14 +96,15 @@ public class FinanceController {
 
     @GetMapping(value = "/finance/getStockPriceInfo")
     @ResponseBody
-    public ResponseEntity<JsonNode> getStockPriceInfo(@RequestParam String itmsNm, @RequestParam int pageNo, @RequestParam int numOfRows) {
+    public ResponseEntity<JsonNode> getStockPriceInfo(@RequestParam String itmsNm, @RequestParam int pageNo,
+            @RequestParam int numOfRows) {
 
         HashMap<String, String> data = getConfigData("STOCK_INFO");
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("serviceKey", data.get("AUTH_KEY"));
         params.add("numOfRows", Integer.toString(numOfRows));
         params.add("resultType", "json");
-        params.add("itmsNm", openApiService.encodingString(itmsNm,"UTF-8") );
+        params.add("itmsNm", openApiService.encodingString(itmsNm, "UTF-8"));
 
         OpenApiReqParam reqParam = new OpenApiReqParam();
         reqParam.setEndPointURL(data.get("CALLBACK_URL"));
@@ -137,7 +137,6 @@ public class FinanceController {
         return ResponseEntity.ok(items);
     }
 
-
     private HashMap<String, String> getConfigData(String category) {
         List<Config> confs = configService.getConfigByCategory(category);
         HashMap<String, String> data = new HashMap<>();
@@ -155,5 +154,4 @@ public class FinanceController {
         return data;
     }
 
-    
 }
