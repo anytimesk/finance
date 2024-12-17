@@ -12,7 +12,7 @@
            <PatternLayout pattern="${COLOR_PATTERN}"/>
        </Console>
 
-       <RollingFile name ="RollingFileAppender">
+       <RollingFile name="RollingFileAppender">
            <FileName>${LOG_PATH}/log4j2.log</FileName>
            <FilePattern>${LOG_PATH}/log4j2.%d{yyyy-MM-dd-hh-mm}.%i.log.gz</FilePattern>
            <PatternLayout>
@@ -20,19 +20,18 @@
            </PatternLayout>
            <Policies>
                <SizeBasedTriggeringPolicy size="100MB"/>
-               <TimeBasedTriggeringPolicy interval = "60" modulate = "true"/>
+               <TimeBasedTriggeringPolicy interval="60" modulate="true"/>
            </Policies>
        </RollingFile>
-
    </Appenders>
 
-    <Loggers>
-        <root level="info" additivity="true">
-            <AppenderRef ref="console"/>
-        </root>
-        <Logger name="consolelog" level="info" additivity="false">
-            <AppenderRef ref="file"/>
-        </Logger>
-    </Loggers>
-    
+   <Loggers>
+       <root level="info" additivity="true">
+           <AppenderRef ref="console"/>
+           <AppenderRef ref="RollingFileAppender"/>
+       </root>
+       <Logger name="consolelog" level="info" additivity="false">
+           <AppenderRef ref="RollingFileAppender"/>
+       </Logger>
+   </Loggers>
 </Configuration>
