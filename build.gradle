@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.dastro.finance'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.6-SNAPSHOT'
 
 java {
 	toolchain {
@@ -27,8 +27,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-	// https://mvnrepository.com/artifact/io.netty/netty-resolver-dns-native-macos
-	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.114.Final'
+	
+	if (System.getProperty('os.name').toLowerCase().contains('mac')) {
+		// https://mvnrepository.com/artifact/io.netty/netty-resolver-dns-native-macos
+		implementation 'io.netty:netty-resolver-dns-native-macos:4.1.114.Final'
+	}
 
 	modules {
         module("org.springframework.boot:spring-boot-starter-logging") {
