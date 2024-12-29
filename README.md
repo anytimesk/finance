@@ -1,5 +1,16 @@
 # Code 실행시 사전 설정 사항
 
+<h2>목차</h2>
+
+1. [http 또는 https 서비스 설정](#1.-http-또는-https-서비스-설정)</br>
+   1.1 [가상 인증서 발급법](가상-인증서-발급법)</br>
+   1.2 [Let's Encryption 인증서를 발급법](Let's-Encryption-인증서를-발급법)
+2. [Oauth2 사용 설정 필요](#2.-Oauth2-사용-설정-필요)
+
+---
+
+</br>
+
 ## 1. http 또는 https 서비스 설정
 
 -   application.yml active를 http로 설정하면 80포트의 http로 설정(Default)
@@ -18,7 +29,7 @@
 
 -   이때는 https 사용할 ssl 인증서를 생성해야 함
 
-    -   1.1 가상 인증서 발급법
+    -   1 가상 인증서 발급법
 
         -   아래와 같이 shell에 명령 입력
 
@@ -29,9 +40,9 @@
         ![image](./doc_img/local_ssl_key.png)
 
         -   MacOS 한글환경으로 인해 마지막 질문에 yes로 영문 입력시 오류 남
-        -   한글로 <span style="color:red;font-weight:bold;">예</span>로 입력 영문은 경우는 <span style="color:red; font-weight:bold;">yes</span>입력
+        -   한글로 **예**로 입력 영문은 경우는 **yes**입력
 
-    -   1.2 Let's Encryption을 통해 무료 공개 인증서를 받는 법
+    -   2 Let's Encryption 인증서를 발급법
 
         -   서비스를 할 서버와 도메인이 필요
         -   서비스를 할 서버에 접속 Docker를 사용 인증서를 발급 받음
@@ -71,10 +82,9 @@
         |-|-|
         |`key-alias: spring` | `key-alias: tomcat` |
 
----
+## 2. Oauth2 사용 설정
 
-## 2. Oauth2 사용 설정 필요(Kakao, Google등 OAuth2 제공자에서 OAuth2 애플리케이션을 생성해야 함)
-
+-   사전에 Kakao, Google등 OAuth2 제공자에서 OAuth2 애플리케이션을 생성해야 함
 -   아래는 Google Cloud의 API 서비스를 통해 프로젝트를 생성([Google OAuth2 문서](https://developers.google.com/identity/protocols/oauth2?hl=ko))
 -   Code에는 application-oauth가 누락되어 있음
 -   /src/main/resources 폴더 아래에 application-oauth.yml 아래와 같이 작성하여 추가해야 함
