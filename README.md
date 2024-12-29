@@ -113,3 +113,32 @@
                             token-uri: https://oauth2.googleapis.com/token
                             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
     ```
+
+## 3. 배포시 DB 환경 사용 설정
+
+-   application.yml active가 local인 경우는 개발환경으로 사용
+-   Cloud등 환경에서 배포하기 위해서는 local 대신 cloud로 설정
+
+    ```yml
+    spring:
+        profiles:
+            active: cloud, http
+    ```
+
+-   application-cloud.yml에 있는 3가지 항목을 다음 표를 참고해서 .zshrc 혹은 .bashrc에 환경변수 설정
+
+    | 환경변수명             | 설정값(예시)                      |
+    | ---------------------- | --------------------------------- |
+    | ${POSTGRESQL_HOST}     | export POSTGRESQL_HOST=1.1.1.1    |
+    | ${POSTGRESQL_USER}     | export POSTGRESQL_USER=username   |
+    | ${POSTGRESQL_PASSWORD} | export POSTGRESQL_PASSWORD=123456 |
+
+-   아래 명령을 수행하여 환경 변수 적용
+
+```zsh
+source ~/.zshrc
+
+# echo를 사용 확인
+echo ${POSTGRESQL_HOST}
+1.1.1.1
+```
