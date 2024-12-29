@@ -80,7 +80,7 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
-                getCompanyList();
+                getCompanyList(50);
 
                 var table = $("#itemTable").DataTable({
                     destroy: true, // 테이블을 재초기화할 수 있도록 설정
@@ -148,9 +148,9 @@
                 });
             }
 
-            function getCompanyList() {
+            function getCompanyList(numOfRows) {
                 let jsonData = {
-                    numOfRows: 10,
+                    numOfRows: numOfRows,
                 };
                 $.ajax({
                     url: "/finance/getCompanyList",

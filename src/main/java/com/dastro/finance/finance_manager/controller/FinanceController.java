@@ -1,6 +1,5 @@
 package com.dastro.finance.finance_manager.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,7 +55,6 @@ public class FinanceController {
     @GetMapping(value = "/finance/getCompanyList")
     @ResponseBody
     public ResponseEntity<JsonNode> getCompanyList(@RequestParam int numOfRows) {
-        // data.go.kr에서 상장회사 리스트 가져옴(Sample이라 100개만)
         HashMap<String, String> data = getConfigData("ISIN_CODE");
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("serviceKey", data.get("AUTH_KEY"));
@@ -68,11 +66,8 @@ public class FinanceController {
         reqParam.setDetailService("/getItemInfo");
         reqParam.setQueryParam(params);
 
-        long startTime = System.currentTimeMillis();
         String response = openApiService.getOpenApiData(reqParam);
         ObjectMapper objectMapper = new ObjectMapper();
-        long stopTime = System.currentTimeMillis();
-        log.info("getOpenApiData Time {} ms", (stopTime - startTime));
         JsonNode items = null;
 
         try {
@@ -149,8 +144,8 @@ public class FinanceController {
                 data.put(conf.getConfName(), openApiService.encodingString(conf.getConfValue()));
             }
         });
-        log.info("baseUri : {}", data.get("CALLBACK_URL"));
-        log.info("servicekey : {}", data.get("AUTH_KEY"));
+        log.debug("baseUri : {}", data.get("CALLBACK_URL"));
+        log.debug("servicekey : {}", data.get("AUTH_KEY"));
 
         return data;
     }
