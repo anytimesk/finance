@@ -55,7 +55,7 @@
         -   생성된 pem 키를 변환
 
     -   2가지 방법중 keystore.p12로 생성된 파일 /src/main/resources 폴더 아래 복사
-    -   application-https.yml 파일에 key-store-password에 키 생성시 비밀번호 입력
+    -   application-https.yml 파일에 key-store-password에 키 생성시 사용한 아이디, 비밀번호 입력
         ```yml
         server:
         port: 443
