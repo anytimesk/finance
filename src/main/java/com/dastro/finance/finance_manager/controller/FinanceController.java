@@ -48,42 +48,43 @@ public class FinanceController {
     @GetMapping(value = "/finance")
     public String financeMain(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
 
+        memberService.loginCheckAndInsertModel(principal, request, model);
+
+        return "finance";
+    }
+
+    @GetMapping(value = "/finance/getCompanyList")
+    @ResponseBody
+    public ResponseEntity<JsonNode> getCompanyList(@RequestParam int numOfRows) {
         // data.go.kr에서 상장회사 리스트 가져옴(Sample이라 100개만)
         HashMap<String, String> data = getConfigData("ISIN_CODE");
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("serviceKey", data.get("AUTH_KEY"));
         params.add("resultType", "json");
-        params.add("numOfRows", Integer.toString(50));
+        params.add("numOfRows", Integer.toString(numOfRows));
 
         OpenApiReqParam reqParam = new OpenApiReqParam();
         reqParam.setEndPointURL(data.get("CALLBACK_URL"));
         reqParam.setDetailService("/getItemInfo");
         reqParam.setQueryParam(params);
 
+        long startTime = System.currentTimeMillis();
         String response = openApiService.getOpenApiData(reqParam);
         ObjectMapper objectMapper = new ObjectMapper();
+        long stopTime = System.currentTimeMillis();
+        log.info("getOpenApiData Time {} ms", (stopTime - startTime));
         JsonNode items = null;
 
         try {
-            // long startTime = System.currentTimeMillis();
             JsonNode jsonNode = objectMapper.readTree(response);
             items = jsonNode.path("response").path("body").path("items").path("item");
-            List<String> companyList = new ArrayList<>();
-
-            items.forEach(item -> companyList.add(item.get("itmsNm").asText()));
-
-            model.addAttribute("companies", companyList);
-            // long stopTime = System.currentTimeMillis();
-            // log.info("Json Parsing Time {}", (stopTime - startTime));
         } catch (JsonProcessingException e) {
             log.error("JSON 파싱 오류: {}", e.getMessage());
         } catch (Exception e) {
             log.error("기타 오류: {}", e.toString());
         }
 
-        memberService.loginCheckAndInsertModel(principal, request, model);
-
-        return "finance";
+        return ResponseEntity.ok(items);
     }
 
     @GetMapping(value = "/finance/account")
