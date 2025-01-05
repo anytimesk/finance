@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dastro.finance.finance_manager.dto.OpenApiReqParam;
 import com.dastro.finance.finance_manager.entity.BankAccount;
-import com.dastro.finance.finance_manager.entity.Config;
 import com.dastro.finance.finance_manager.entity.KRXListedData;
 import com.dastro.finance.finance_manager.service.BankAccountService;
 import com.dastro.finance.finance_manager.service.ConfigService;
@@ -57,39 +56,9 @@ public class FinanceController {
         return "finance";
     }
 
-    @GetMapping(value = "/finance/getCompanyList2")
-    @ResponseBody
-    public ResponseEntity<JsonNode> getCompanyList(@RequestParam int numOfRows) {
-        HashMap<String, String> data = getConfigData("ISIN_CODE");
-        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("serviceKey", data.get("AUTH_KEY"));
-        params.add("resultType", "json");
-        params.add("numOfRows", Integer.toString(numOfRows));
-
-        OpenApiReqParam reqParam = new OpenApiReqParam();
-        reqParam.setEndPointURL(data.get("CALLBACK_URL"));
-        reqParam.setDetailService("/getItemInfo");
-        reqParam.setQueryParam(params);
-
-        String response = openApiService.getOpenApiData(reqParam);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode items = null;
-
-        try {
-            JsonNode jsonNode = objectMapper.readTree(response);
-            items = jsonNode.path("response").path("body").path("items").path("item");
-        } catch (JsonProcessingException e) {
-            log.error("JSON 파싱 오류: {}", e.getMessage());
-        } catch (Exception e) {
-            log.error("기타 오류: {}", e.toString());
-        }
-
-        return ResponseEntity.ok(items);
-    }
-
     @GetMapping(value = "/finance/getCompanyList")
     @ResponseBody
-    public List<KRXListedData> getCompanyList2(@RequestParam int numOfRows) {
+    public List<KRXListedData> getCompanyList(@RequestParam int numOfRows) {
         List<KRXListedData> data = krxListedDataService.findAll();
 
         return data;
@@ -108,7 +77,7 @@ public class FinanceController {
     public ResponseEntity<JsonNode> getStockPriceInfo(@RequestParam String itmsNm, @RequestParam int pageNo,
             @RequestParam int numOfRows) {
 
-        HashMap<String, String> data = getConfigData("STOCK_INFO");
+        HashMap<String, String> data = configService.getConfigData("STOCK_INFO");
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("serviceKey", data.get("AUTH_KEY"));
         params.add("numOfRows", Integer.toString(numOfRows));
