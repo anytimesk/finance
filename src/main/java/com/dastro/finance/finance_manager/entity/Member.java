@@ -3,16 +3,14 @@ package com.dastro.finance.finance_manager.entity;
 import jakarta.persistence.*;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @Entity(name = "user_info")
 public class Member {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
