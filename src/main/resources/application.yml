@@ -41,3 +41,6 @@ spring:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         open-in-view: false
         generate-ddl: false
+
+    elasticsearch:
+        uris: http://localhost:9200
