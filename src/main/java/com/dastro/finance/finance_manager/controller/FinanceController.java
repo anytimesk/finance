@@ -145,22 +145,4 @@ public class FinanceController {
 
         return ResponseEntity.ok(items);
     }
-
-    private HashMap<String, String> getConfigData(String category) {
-        List<Config> confs = configService.getConfigByCategory(category);
-        HashMap<String, String> data = new HashMap<>();
-
-        confs.forEach(conf -> {
-            if (conf.getConfName().equals("CALLBACK_URL")) {
-                data.put(conf.getConfName(), conf.getConfValue());
-            } else if (conf.getConfName().equals("AUTH_KEY")) {
-                data.put(conf.getConfName(), openApiService.encodingString(conf.getConfValue()));
-            }
-        });
-        log.debug("baseUri : {}", data.get("CALLBACK_URL"));
-        log.debug("servicekey : {}", data.get("AUTH_KEY"));
-
-        return data;
-    }
-
 }
