@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dastro.finance.finance_manager.dto.OpenApiReqParam;
 import com.dastro.finance.finance_manager.entity.BankAccount;
 import com.dastro.finance.finance_manager.entity.Config;
+import com.dastro.finance.finance_manager.entity.KRXListedData;
 import com.dastro.finance.finance_manager.service.BankAccountService;
 import com.dastro.finance.finance_manager.service.ConfigService;
+import com.dastro.finance.finance_manager.service.KRXListedDataService;
 import com.dastro.finance.finance_manager.service.MemberService;
 import com.dastro.finance.finance_manager.service.OpenApiService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,6 +46,9 @@ public class FinanceController {
     @Autowired
     OpenApiService openApiService;
 
+    @Autowired
+    KRXListedDataService krxListedDataService;
+
     @GetMapping(value = "/finance")
     public String financeMain(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
 
@@ -52,7 +57,7 @@ public class FinanceController {
         return "finance";
     }
 
-    @GetMapping(value = "/finance/getCompanyList")
+    @GetMapping(value = "/finance/getCompanyList2")
     @ResponseBody
     public ResponseEntity<JsonNode> getCompanyList(@RequestParam int numOfRows) {
         HashMap<String, String> data = getConfigData("ISIN_CODE");
@@ -80,6 +85,14 @@ public class FinanceController {
         }
 
         return ResponseEntity.ok(items);
+    }
+
+    @GetMapping(value = "/finance/getCompanyList")
+    @ResponseBody
+    public List<KRXListedData> getCompanyList2(@RequestParam int numOfRows) {
+        List<KRXListedData> data = krxListedDataService.findAll();
+
+        return data;
     }
 
     @GetMapping(value = "/finance/account")
