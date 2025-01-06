@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dastro.finance.finance_manager.dto.OpenApiReqParam;
-import com.dastro.finance.finance_manager.entity.KRXListedData;
 import com.dastro.finance.finance_manager.service.ConfigService;
 import com.dastro.finance.finance_manager.service.KRXListedDataService;
 import com.dastro.finance.finance_manager.service.MemberService;
@@ -29,7 +28,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Controller
-public class ElasticsearchController {
+public class InfoController {
 
     @Autowired
     MemberService memberService;
@@ -44,22 +43,11 @@ public class ElasticsearchController {
     KRXListedDataService krxListedDataService;
 
     @GetMapping(value = "/info")
-    public String financeMain(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
+    public String infoMain(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
 
         memberService.loginCheckAndInsertModel(principal, request, model);
 
         return "info";
-    }
-
-    @GetMapping("/krx-list")
-    public List<KRXListedData> getKrxList() {
-        List<KRXListedData> data = krxListedDataService.findAll();
-
-        for (KRXListedData krxListedData : data) {
-            log.info("KRX Name : {}, Code : {}", krxListedData.getItmsNm(), krxListedData.getIsinCd());
-        }
-
-        return data;
     }
 
     @GetMapping(value = "/info/saveCompanyList")
