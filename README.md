@@ -142,3 +142,20 @@ source ~/.zshrc
 echo ${POSTGRESQL_HOST}
 1.1.1.1
 ```
+
+## 4. Elastic Search 연동
+
+-   현재는 localhost로 연동
+
+    ```yml
+    spring:
+        elasticsearch:
+            uris: http://localhost:9200
+    ```
+
+-   **krx_listed_data** 명으로 미리생성해야 함
+-   kibana Dev Tools를 사용해서 생성
+
+    ```kibana
+        put /krx_listed_data
+    ```
