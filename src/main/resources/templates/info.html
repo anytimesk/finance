@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head th:replace="~{layouts/header :: headerFragment(~{::title})}">
+        <title>Config</title>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav th:replace="~{layouts/top :: top-nav}"></nav>
+        <div id="layoutSidenav">
+            <!-- Left Side Menu-->
+            <div th:replace="~{layouts/left-side :: side-nav}"></div>
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">정보</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">기본 정보 불러오기</li>
+                        </ol>
+                        <div class="row">
+                            <div class="md-12">
+                                <div class="card-head">
+                                    <input type="text" id="PageNo_Company" placeholder="Page No" autocomplete="off" />
+                                    <button id="getCompanyInfo" class="btn-primary">상장 회사 정보 가져오기</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5"></div>
+                    </div>
+                    <s:csrfInput />
+                </main>
+                <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
+            </div>
+        </div>
+
+        <th:block th:replace="~{layouts/scripts :: scriptFragment}"></th:block>
+        <script type="text/javascript">
+            $(document).ready(function () {});
+
+            $("#getCompanyInfo").click(function (e) {
+                console.log("회사 목록을 가져옵니다.");
+                let jsonData = {
+                    numOfRows: 50,
+                    pageNo: $("#PageNo_Company").val(),
+                };
+
+                $.ajax({
+                    url: "/info/saveCompanyList",
+                    type: "GET",
+                    data: jsonData,
+                    success: function (companies) {
+                        alert(companies.count() + " 회사 목록을 가져왔습니다.");
+                    },
+                    error: function (xhr, status, error) {
+                        alert("회사 목록을 가져오는 데 실패했습니다.");
+                    },
+                });
+            });
+        </script>
+    </body>
+</html>

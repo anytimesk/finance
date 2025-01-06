@@ -19,9 +19,6 @@
 
                         <div class="row">
                             <div class="md-4">
-                                <input type="text" id="PageNo_Company" placeholder="Page No" autocomplete="off" />
-                                <button id="getCompanyInfo" class="btn-primary">회사</button>
-
                                 <input
                                     type="text"
                                     id="itmsNm"
@@ -150,26 +147,6 @@
                     },
                 });
             }
-
-            $("#getCompanyInfo").click(function (e) {
-                console.log("회사 목록을 가져옵니다.");
-                let jsonData = {
-                    numOfRows: 50,
-                    pageNo: $("#PageNo_Company").val(),
-                };
-                alert(jsonData.toString());
-                $.ajax({
-                    url: "/company/saveCompanyList",
-                    type: "GET",
-                    data: jsonData,
-                    success: function (companies) {
-                        console.log(companies);
-                    },
-                    error: function (xhr, status, error) {
-                        alert("회사 목록을 가져오는 데 실패했습니다.");
-                    },
-                });
-            });
 
             function getCompanyList(numOfRows) {
                 let jsonData = {

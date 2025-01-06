@@ -43,12 +43,12 @@ public class ElasticsearchController {
     @Autowired
     KRXListedDataService krxListedDataService;
 
-    @GetMapping(value = "/company")
+    @GetMapping(value = "/info")
     public String financeMain(@AuthenticationPrincipal OAuth2User principal, HttpServletRequest request, Model model) {
 
         memberService.loginCheckAndInsertModel(principal, request, model);
 
-        return "company";
+        return "info";
     }
 
     @GetMapping("/krx-list")
@@ -62,7 +62,7 @@ public class ElasticsearchController {
         return data;
     }
 
-    @GetMapping(value = "/company/saveCompanyList")
+    @GetMapping(value = "/info/saveCompanyList")
     @ResponseBody
     public ResponseEntity<JsonNode> saveCompanyList(@RequestParam int numOfRows, @RequestParam int pageNo) {
         HashMap<String, String> data = configService.getConfigData("ISIN_CODE");
