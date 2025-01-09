@@ -19,7 +19,16 @@
                         <div class="row">
                             <div class="md-12">
                                 <div class="card-head">
-                                    <input type="text" id="PageNo_Company" placeholder="Page No" autocomplete="off" />
+                                    <input
+                                        type="text"
+                                        id="ComNumOfRows"
+                                        placeholder="가져올 한 페이지 수"
+                                        autocomplete="off" />
+                                    <input
+                                        type="text"
+                                        id="ComPageNo"
+                                        placeholder="가져올 페이지 번호"
+                                        autocomplete="off" />
                                     <button id="getCompanyInfo" class="btn-primary">상장 회사 정보 가져오기</button>
                                 </div>
                             </div>
@@ -40,8 +49,8 @@
             $("#getCompanyInfo").click(function (e) {
                 console.log("회사 목록을 가져옵니다.");
                 let jsonData = {
-                    numOfRows: 50,
-                    pageNo: $("#PageNo_Company").val(),
+                    numOfRows: $("#ComNumOfRows").val(),
+                    pageNo: $("#ComPageNo").val(),
                 };
 
                 $.ajax({

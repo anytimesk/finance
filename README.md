@@ -1,8 +1,16 @@
-# Code 실행시 사전 설정 사항
+# Code 실행시 사전 준비 사항
 
-## 1. http 또는 https 서비스 설정
+## 1. PostgreSQL, Elastic Search 설치는 첨부된 docker-compose.yml을 사용 설치
 
-### 1.1. http 설정
+```shell
+sudo docker-compose up -d
+# 일부 docker-compose 버전이 높은 경우
+sudo docker compose up -d
+```
+
+## 2. http 또는 https 서비스 설정
+
+### 2.1. http 설정
 
 -   application.yml active를 http로 설정하면 80포트의 http로 설정(Default : http)
 
@@ -18,7 +26,7 @@
         port: 80
     ```
 
-### 1.2 https 설정
+### 2.2 https 설정
 
 -   application.yml active를 https로 설정
 
@@ -30,7 +38,7 @@
 
 -   https 사용할 ssl 인증서를 생성(방법 2가지)
 
-#### 1.2.1. 가상 인증서 발급법
+#### 2.2.1. 가상 인증서 발급법
 
 -   아래와 같이 shell에 명령 입력
 
@@ -42,7 +50,7 @@
 
     > MacOS 한글 환경으로 인해 마지막 질문에 yes로 영문 입력시 오류 남. 한글로 **예**로 입력 영문은 경우는 **yes**입력
 
-#### 1.2.2. Let's Encryption 인증서를 발급법
+#### 2.2.2. Let's Encryption 인증서를 발급법
 
 -   서비스를 할 서버와 도메인이 필요
 -   서비스를 할 서버에 접속 Docker를 사용 인증서를 발급 받음
@@ -88,7 +96,7 @@
     |-|-|
     |`key-alias: spring` | `key-alias: tomcat` |
 
-## 2. Oauth2 사용 설정
+## 3. Oauth2 사용 설정
 
 -   사전에 Kakao, Google등 OAuth2 제공자에서 OAuth2 애플리케이션을 생성해야 함
 -   본 프로젝트는 Google Cloud의 API 서비스를 통해 프로젝트를 생성([Google OAuth2 문서](https://developers.google.com/identity/protocols/oauth2?hl=ko))
@@ -114,7 +122,7 @@
                             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
     ```
 
-## 3. 배포시 DB 환경 사용 설정
+## 4. 배포시 DB 환경 사용 설정
 
 -   application.yml active가 local인 경우는 개발환경으로 사용
 -   Cloud등 환경에서 배포하기 위해서는 local 대신 cloud로 설정
@@ -143,19 +151,12 @@ echo ${POSTGRESQL_HOST}
 1.1.1.1
 ```
 
-## 4. Elastic Search 연동
+## 5. Elastic Search 연동
 
--   현재는 localhost로 연동
+-   현재는 localhost에 보안 설정 없이 연동
 
     ```yml
     spring:
         elasticsearch:
             uris: http://localhost:9200
-    ```
-
--   **krx_listed_data** 명으로 미리생성해야 함
--   kibana Dev Tools를 사용해서 생성
-
-    ```kibana
-        put /krx_listed_data
     ```

@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: sky
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: finance
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+    container_name: es01
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/_docVol/pgdata
+  elastic_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/_docVol/elastic_data
