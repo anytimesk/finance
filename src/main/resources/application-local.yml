@@ -2,6 +2,6 @@
 spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/finance
-        username: sky
-        password: 123456
+        username: ${POSTGRESQL_USER}
+        password: ${POSTGRESQL_PASSWORD}
         driver-class-name: org.postgresql.Driver

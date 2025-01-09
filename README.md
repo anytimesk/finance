@@ -1,12 +1,23 @@
 # Code 실행시 사전 준비 사항
 
-## 1. PostgreSQL, Elastic Search 설치는 첨부된 docker-compose.yml을 사용 설치
+## 1. PostgreSQL, Elastic Search, Kibana 구성
 
-```shell
-sudo docker-compose up -d
-# 일부 docker-compose 버전이 높은 경우
-sudo docker compose up -d
-```
+-   config.sh 파일을 개인 설정에 맞게 재설정
+    ```sh
+    export POSTGRESQL_USER=sky              # Postgres SQL 접속 ID
+    export POSTGRESQL_PASSWORD=123456       # Postgres SQL 접속 Password
+    export POSTGRESQL_DATABASE=finance      # Postgres SQL 접속 DB name
+    ```
+    편집 후 아래 명령으로 적용
+    ```bash
+    source config.sh
+    ```
+-   아래 docker compose 명령을 통해 DB, Elastic Search, Kibana를 구성해줌
+    ```shell
+    sudo docker-compose up -d
+    # 일부 docker-compose 버전이 높은 경우
+    sudo docker compose up -d
+    ```
 
 ## 2. http 또는 https 서비스 설정
 
@@ -125,7 +136,11 @@ sudo docker compose up -d
 ## 4. 배포시 DB 환경 사용 설정
 
 -   application.yml active가 local인 경우는 개발환경으로 사용
+    -   config.sh를 통해서 ID, Password는 설정됨
 -   Cloud등 환경에서 배포하기 위해서는 local 대신 cloud로 설정
+
+    -   Cloud 배포시도 Application Server가 돌고 있는 서버에 제공한 docker compose 파일로 구동환경을 설정할 경우 local로 설정
+    -   아래는 다른 서버에 DB를 구성한 경우는 ${POSTGRESQL_HOST} 부분을 config.sh에 추가해서 구성해줌
 
     ```yml
     spring:
@@ -133,23 +148,22 @@ sudo docker compose up -d
             active: cloud, http
     ```
 
--   application-cloud.yml에 있는 3가지 항목을 다음 표를 참고해서 .zshrc 혹은 .bashrc에 환경변수 설정
-
-    | 환경변수명             | 설정값(예시)                      |
-    | ---------------------- | --------------------------------- |
-    | ${POSTGRESQL_HOST}     | export POSTGRESQL_HOST=1.1.1.1    |
-    | ${POSTGRESQL_USER}     | export POSTGRESQL_USER=username   |
-    | ${POSTGRESQL_PASSWORD} | export POSTGRESQL_PASSWORD=123456 |
+    | 환경변수명             | 설정값(예시)                       |
+    | ---------------------- | ---------------------------------- |
+    | ${POSTGRESQL_HOST}     | export POSTGRESQL_HOST=1.1.1.1     |
+    | ${POSTGRESQL_USER}     | export POSTGRESQL_USER=username    |
+    | ${POSTGRESQL_PASSWORD} | export POSTGRESQL_PASSWORD=123456  |
+    | ${POSTGRESQL_DATABASE} | export POSTGRESQL_DATABASE=finance |
 
 -   아래 명령을 수행하여 환경 변수 적용
 
-```zsh
-source ~/.zshrc
+    ```zsh
+    source ~/.zshrc
 
-# echo를 사용 확인
-echo ${POSTGRESQL_HOST}
-1.1.1.1
-```
+    # echo를 사용 확인
+    echo ${POSTGRESQL_HOST}
+    1.1.1.1
+    ```
 
 ## 5. Elastic Search 연동
 
