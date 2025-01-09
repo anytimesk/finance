@@ -2,15 +2,18 @@
 
 ## 1. PostgreSQL, Elastic Search, Kibana 구성
 
--   config.sh 파일을 개인 설정에 맞게 재설정
+-   env 파일을 개인 설정에 맞게 재설정함
     ```sh
     export POSTGRESQL_USER=sky              # Postgres SQL 접속 ID
     export POSTGRESQL_PASSWORD=123456       # Postgres SQL 접속 Password
     export POSTGRESQL_DATABASE=finance      # Postgres SQL 접속 DB name
     ```
-    편집 후 아래 명령으로 적용
+    -   편집 후 source 명령으로 terminal 환경에 적용(실행시 환경 변수 반영)
+    -   source 적용후 env 파일을 .env 파일로 변환(설정 구성시 환경 변수 반영)
+        -   docker compose는 docker-compose.yml 파일과 같은 위치에 .env 존재하면 명령 실행시 값을 읽어서 설정
     ```bash
-    source config.sh
+    source env
+    mv env .env
     ```
 -   아래 docker compose 명령을 통해 DB, Elastic Search, Kibana를 구성해줌
     ```shell
