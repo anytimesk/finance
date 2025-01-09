@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.dastro.finance'
-version = '0.0.6-SNAPSHOT'
+version = '0.1.6-SNAPSHOT'
 
 java {
 	toolchain {
